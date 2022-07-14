@@ -1,7 +1,8 @@
 package com.telran.contacts.tests;
 
 import com.telran.contacts.models.Contact;
-import com.telran.contacts.tests.TestBase;
+import com.telran.contacts.models.User;
+import com.telran.contacts.utils.DataProviders;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -33,40 +34,13 @@ public class CreateAccountTests extends TestBase {
         Assert.assertTrue(app.getHeader().isSignOutButtonPresent());
     }
 
-    @Test
-    public void registrationNegativeTest () {
-    app.getUser().registration();
+    @Test(dataProvider = "addNewContactNegative", dataProviderClass = DataProviders.class)
+    public void registrationNegativeTestWithWrongEmail(User user) {
+
+        app.getUser().click(By.xpath("//a[contains(text(),'LOGIN')]"));
+        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().click(By.xpath("//button[contains(text(),'Registration')]"));
+    Assert.assertTrue(app.getUser().isAlertPresent());
 
     }
-
-    @DataProvider
-    public Iterator<Object[]> addNewContactNegative() {
-        List<Object[]> list = new ArrayList<>();
-        list.add(new Object[]{"lusy@gmail.com", "1a!"});
-        list.add(new Object[]{"lusy+1@gmail.com", "2a!"});
-        list.add(new Object[]{"lusy+2@gmail.com", "3a!"});
-        return list.iterator();
-
-    }
-
-    @DataProvider
-    public Iterator<Object[]> addNewContactFromCSV() throws IOException {
-        List<Object[]> list = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/CreateNegative.csv")));
-
-        String line = reader.readLine();
-
-        while (line != null) {
-            String[] split = line.split(",");
-            list.add(new Object[]{new Contact().setName(split[0])
-                    .setSureName(split[1])
-                    .setPhone(split[2])
-                    .setEmail(split[3])
-                    .setAddress(split[4])
-                    .setDiscription(split[5])});
-            line = reader.readLine();
-        }
-        return list.iterator();
-    }
-
 }
