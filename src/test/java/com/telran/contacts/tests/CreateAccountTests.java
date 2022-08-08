@@ -26,7 +26,7 @@ public class CreateAccountTests extends TestBase {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void registrationPositiveTest() {
         //click on the link LOGIN
         app.getUser().registration();
@@ -35,12 +35,12 @@ public class CreateAccountTests extends TestBase {
     }
 
     @Test(dataProvider = "addNewContactNegative", dataProviderClass = DataProviders.class)
-    public void registrationNegativeTestWithWrongEmail(User user) {
+    public void registrationNegativeTestWithWrongPassword(String email, String password) {
 
         app.getUser().click(By.xpath("//a[contains(text(),'LOGIN')]"));
-        app.getUser().fillLoginRegistrationForm(user);
+        app.getUser().fillLoginRegistrationForm(new User().setEmail(email).setPassword(password));
         app.getUser().click(By.xpath("//button[contains(text(),'Registration')]"));
-    Assert.assertTrue(app.getUser().isAlertPresent());
+        Assert.assertTrue(app.getUser().isAlertPresent());
 
     }
 }
