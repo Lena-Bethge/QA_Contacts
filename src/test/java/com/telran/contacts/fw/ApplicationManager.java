@@ -33,14 +33,15 @@ public class ApplicationManager {
     }
 
     public HeaderHelper getHeader() {
+
         return header;
     }
 
     public void init() {
-        if (browser.equals(BrowserType.CHROME)){
+        if (browser.equals(BrowserType.CHROME)) {
             driver = new ChromeDriver();
-        }else if(browser.equals(BrowserType.FIREFOX))
-        driver = new FirefoxDriver();
+        } else if (browser.equals(BrowserType.FIREFOX))
+            driver = new FirefoxDriver();
 
         driver.get("https://contacts-app.tobbymarshall815.vercel.app");
         driver.manage().window().maximize();
